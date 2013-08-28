@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="RosyChopper.Views.ChopperView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RosyChopper.Views"
+	xmlns:converters="using:RosyChopper.Converters"
+	xmlns:viewmodels="using:RosyChopper.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+	<Page.Resources>
+		<converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+		<converters:InverseBooleanToVisibilityConverter x:Key="inverseBooleanToVisibilityConverter" />
+	</Page.Resources>
+	
+	<Page.DataContext>
+		<viewmodels:ChopperViewModel/>
+	</Page.DataContext>
+
+	<Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="100"/>
+			<ColumnDefinition Width="500"/>
+			<ColumnDefinition Width="100" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<Button Visibility="{Binding IsEditing, Converter={StaticResource inverseBooleanToVisibilityConverter}}" Command="{Binding StartEditingCommand}" Content="EDIT" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+		<Button Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Command="{Binding StopEditingCommand}" Content="DONE" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+		
+		<TextBlock Text="PEOPLE" FontSize="40" FontWeight="Bold" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+		<Button Visibility="{Binding IsEditing, Converter={StaticResource inverseBooleanToVisibilityConverter}}" Content="GO" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="2" />
+		<Button Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Content="Pick" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="2" />
+
+		<TextBox Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Grid.Row="1" Grid.ColumnSpan="2" FontSize="24" />
+
+		<Button Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Content="✚" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="2" Grid.Row="1" />
+		
+		<ListView IsEnabled="{Binding IsEditing}" Grid.Row="2" Grid.ColumnSpan="3" />
+	</Grid>
+</Page>
