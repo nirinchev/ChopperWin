@@ -6,7 +6,9 @@
 	xmlns:converters="using:RosyChopper.Converters"
 	xmlns:viewmodels="using:RosyChopper.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mssucks="using:RosyChopper.MicrosoftSucks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="using:WinRT.Triggers"
     mc:Ignorable="d">
 
 	<Page.Resources>
@@ -29,19 +31,32 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-
+		<!--0,0-->
 		<Button Visibility="{Binding IsEditing, Converter={StaticResource inverseBooleanToVisibilityConverter}}" Command="{Binding StartEditingCommand}" Content="EDIT" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
 		<Button Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Command="{Binding StopEditingCommand}" Content="DONE" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
-		
+
+		<!--0,1-->
 		<TextBlock Text="PEOPLE" FontSize="40" FontWeight="Bold" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
-		<Button Visibility="{Binding IsEditing, Converter={StaticResource inverseBooleanToVisibilityConverter}}" Content="GO" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="2" />
+		<!--0,2-->
+		<Button Visibility="{Binding IsEditing, Converter={StaticResource inverseBooleanToVisibilityConverter}}" Command="{Binding PickRandomPersonCommand}" Content="GO" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="2" />
 		<Button Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Content="Pick" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="2" />
 
-		<TextBox Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Grid.Row="1" Grid.ColumnSpan="2" FontSize="24" />
+		<!--1,0:1-->
+		<!--TODO: Add picture-->
+		<TextBox Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Text="{Binding NewPersonName}" Grid.Row="1" Grid.ColumnSpan="2" FontSize="24" mssucks:ImmediateSourceUpdate.IsEnabled="True" mssucks:ImmediateSourceUpdate.Source="{Binding NewPersonName, Mode=TwoWay}" />
 
-		<Button Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Content="✚" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="2" Grid.Row="1" />
-		
-		<ListView IsEnabled="{Binding IsEditing}" Grid.Row="2" Grid.ColumnSpan="3" />
+		<!--1,2-->
+		<Button Visibility="{Binding IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" Command="{Binding AddPersonCommand}" Content="✚" FontSize="24" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="2" Grid.Row="1" />
+
+		<!--2,0:2-->
+		<ListView x:Name="PeopleList" IsEnabled="{Binding IsEditing}" ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson, Mode=TwoWay}" Grid.Row="2" Grid.ColumnSpan="3" SelectionMode="Single">
+			<i:Interactions.Triggers>
+				<i:EventTrigger EventName="SelectionChanged">
+					<i:InvokeCommandAction Command="{Binding RemovePersonCommand}" />
+					<!-- TODO: pass person name in comamnd parameter -->
+				</i:EventTrigger>
+			</i:Interactions.Triggers>
+		</ListView>
 	</Grid>
 </Page>

@@ -112,7 +112,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\People.cs" />
+    <Compile Include="MicrosoftSucks\ImmediateSourceUpdate.cs" />
+    <Compile Include="MicrosoftSucks\ImmediateUpdateSourceTextBox.cs" />
+    <Compile Include="Models\PeopleCollection.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\DataController.cs" />
@@ -155,6 +157,9 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\Libraries\Json.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WinRT.Triggers">
+      <HintPath>..\Libraries\Interactivity\WinRT.Triggers.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

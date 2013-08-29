@@ -8,13 +8,13 @@ using Windows.Storage;
 
 namespace RosyChopper.Models
 {
-	public class People : ObservableCollection<Person>
+	public class PeopleCollection : ObservableCollection<Person>
 	{
 		private const string FileName = "people.txt";
 
 		private readonly StorageFolder storageFolder;
 
-		public People(StorageFolder storageFolder) : base()
+		public PeopleCollection(StorageFolder storageFolder) : base()
 		{
 			this.storageFolder = storageFolder;
 		}
@@ -49,6 +49,16 @@ namespace RosyChopper.Models
 			{
 				this.AddRange(await JsonConvert.DeserializeObjectAsync<IEnumerable<Person>>(historyString));
 			}
+		}
+
+		internal async Task LoadStateMock()
+		{
+			var mockPeople = new List<Person>();
+			mockPeople.Add(new Person("Pesho"));
+			mockPeople.Add(new Person("Pesho1"));
+			mockPeople.Add(new Person("Pesho2"));
+			mockPeople.Add(new Person("Pesho3"));
+			this.AddRange(mockPeople);
 		}
 
 		internal async Task SaveState()

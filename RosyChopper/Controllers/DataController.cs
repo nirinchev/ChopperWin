@@ -32,12 +32,13 @@ namespace RosyChopper.Controllers
 			}
 		}
 
-		public static People People { get; private set; }
+		public static PeopleCollection People { get; private set; }
 
 		private async static Task LoadPeople()
 		{
-			People = new People(ApplicationData.Current.LocalFolder);
-			await People.LoadState();
+			People = new PeopleCollection(ApplicationData.Current.LocalFolder);
+			//await People.LoadState();
+			await People.LoadStateMock();
 		}
 
 		public async static void SaveState()
